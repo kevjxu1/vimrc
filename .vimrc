@@ -40,3 +40,19 @@ highlight Normal guibg=grey90
 
 set background=dark
 
+"nnoremap <C-t> :set invrelativenumber<CR>
+nnoremap <C-t> :call ToggleLineNumbers()<CR>
+let g:toggle = 2
+function! ToggleLineNumbers()
+    if g:toggle == 0
+        let g:toggle = 1
+        :set number
+    elseif g:toggle == 1
+        let g:toggle = 2
+        :set relativenumber
+    else
+        let g:toggle = 0
+        :set nonumber
+        :set norelativenumber
+    endif
+endfunction
