@@ -41,7 +41,7 @@ highlight Normal guibg=grey90
 set background=dark
 
 "nnoremap <C-t> :set invrelativenumber<CR>
-nnoremap <C-t> :call ToggleLineNumbers()<CR>
+nnoremap <C-l> :call ToggleLineNumbers()<CR>
 let g:toggle = 2
 function! ToggleLineNumbers()
     if g:toggle == 0
@@ -56,3 +56,36 @@ function! ToggleLineNumbers()
         :set norelativenumber
     endif
 endfunction
+
+if exists('+colorcolumn')
+  set colorcolumn=81
+else
+  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+endif
+
+highlight ColorColumn ctermbg=darkgray
+set colorcolumn=81
+
+"visual selected search
+vnoremap // y/<C-R>"<CR>
+
+"highlight trailing whitespace
+nnoremap <C-t> :call HlTrailingSpaces()<CR>
+function! HlTrailingSpaces()
+    :/\s\+$
+endfunction
+
+:set grepprg=grep\ --color=always\ -n\ $*\ /dev/null
+
+"show trailing whitespace
+:highlight ExtraWhitespace ctermbg=red guibg=red
+:match ExtraWhitespace /\s\+$/
+
+set autochdir
+
+"show certain whitespaces
+set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
+set list
+
+" select last paste in visual mode
+nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
